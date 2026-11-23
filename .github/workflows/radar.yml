@@ -1,0 +1,41 @@
+name: Biomechanics Paper Radar
+
+on:
+  schedule:
+    # UTC 0:00 = 北京时间 8:00，每周一和周四自动运行
+    - cron: "0 0 * * 1,4"
+  workflow_dispatch: # 允许在 GitHub 网页端手动点击运行
+
+permissions:
+  contents: write
+
+jobs:
+  run-radar:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run paper radar script
+        env:
+          LLM_API_KEY: ${{ secrets.LLM_API_KEY }}
+          LLM_BASE_URL: ${{ secrets.LLM_BASE_URL }}
+          LLM_MODEL: ${{ secrets.LLM_MODEL }}
+          FEISHU_WEBHOOK: ${{ secrets.FEISHU_WEBHOOK }}
+        run: python main.py
+
+      - name: Commit updated sent_pmids.json
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add sent_pmids.json
+          git diff --staged --quiet || git commit -m "chore: update sent PMIDs"
+          git push
