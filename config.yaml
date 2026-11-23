@@ -1,13 +1,10 @@
-# 抓取最近多少天内 PubMed 收录的新文章（首次测试设为 30，跑通后改为 7）
-days_back: 30
+# 并发总结线程数（建议 3~4，既能提速 3 倍以上又不容易触发 API 限流）
+max_workers: 3
 
-# 每次最多处理多少篇新文献（防止单次文章过多消耗额度）
-max_articles: 10
+# Unpaywall 免费 PDF 接口要求提供一个邮箱标识（可改成你自己的邮箱）
+unpaywall_email: "biomech.radar@example.com"
 
-# 飞书每条消息合并几篇文献（控制在 2 篇以内，彻底避免超字数限制）
-feishu_batch_size: 2
-
-# 锁定的生物力学/运动医学顶刊（PubMed 标准简称）
+# 锁定的生物力学 / 运动医学核心期刊（PubMed 标准简称）
 journals:
   - "Br J Sports Med"
   - "Am J Sports Med"
@@ -17,6 +14,10 @@ journals:
   - "J Orthop Sports Phys Ther"
   - "Sports Med"
   - "Clin Biomech (Bristol, Avon)"
+  - "J Sport Health Sci"
+  - "Sports Biomech"
+  - "Knee Surg Sports Traumatol Arthrosc"
+  - "J Appl Biomech"
 
 # 你的研究方向关键词（命中任意一个即抓取）
 keywords:
@@ -28,4 +29,8 @@ keywords:
   - "markerless"
   - "pose estimation"
   - "deep learning"
+  - "machine learning"
   - "ground reaction force"
+  - "joint moment"
+  - "single-leg"
+  - "landing biomechanics"
