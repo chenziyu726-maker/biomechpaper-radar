@@ -167,7 +167,7 @@ def main():
     articles = fetch_details(new_pmids)
     if not articles:
         print("新文献均无摘要内容，跳过推送。")
-          return
+        return
       
     api_key = os.environ["LLM_API_KEY"].strip()
     base_url = os.environ["LLM_BASE_URL"].strip()
